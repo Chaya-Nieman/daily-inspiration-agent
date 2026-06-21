@@ -121,6 +121,8 @@ RECIPIENT_EMAIL=recipient@example.com
 
 ## Running the Application
 
+### Manually (run anytime)
+
 ```bash
 python main.py
 ```
@@ -129,13 +131,34 @@ Expected console output:
 
 ```
 🚀 Starting Daily Inspiration Agent...
-✅ Agent initialized successfully.
-✨ Generating inspirational content...
+✨ Generating inspirational content via Gemini...
 ✅ Content generated successfully.
 📧 Sending email to recipient@example.com...
 ✅ Email sent successfully!
 🌷 Have a wonderful day!
 ```
+
+### Automatically (daily schedule via GitHub Actions)
+
+The project includes a GitHub Actions workflow that runs every day at **8:00 AM Israel time** automatically — even when your computer is off.
+
+**Setup:**
+1. Push the code to GitHub
+2. Go to your repo → **Settings** → **Secrets and variables** → **Actions**
+3. Add these 4 secrets: `GOOGLE_API_KEY`, `GMAIL_ADDRESS`, `GMAIL_APP_PASSWORD`, `RECIPIENT_EMAIL`
+4. The workflow runs automatically every day
+
+**To trigger manually from GitHub:**
+1. Go to your repo → **Actions** tab
+2. Click **"Daily Inspiration Email"**
+3. Click **"Run workflow"**
+
+**To change the send time:**
+Edit `.github/workflows/daily-inspiration.yml` and update the cron line:
+```yaml
+- cron: '0 5 * * *'  # 05:00 UTC = 08:00 Israel time
+```
+Format: `minute hour * * *` (always use UTC time)
 
 ---
 
@@ -162,8 +185,14 @@ See `requirements.txt` for the full list. Key packages:
 | Package | Purpose |
 |---|---|
 | `openai-agents` | OpenAI Agents SDK |
-| `google-generativeai` | Google Gemini API client |
 | `python-dotenv` | Load environment variables from `.env` |
+
+## GitHub Actions Workflow
+
+The file `.github/workflows/daily-inspiration.yml` contains the automation schedule. It:
+- Runs every day at 8am Israel time (5am UTC)
+- Can also be triggered manually from the GitHub Actions tab
+- Uses your GitHub secrets as environment variables — your credentials never appear in the code
 
 ---
 
