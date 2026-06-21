@@ -1,0 +1,33 @@
+name: Daily Inspiration Email
+
+on:
+  # Run every day at 8:00 AM Israel time (UTC+3 = 05:00 UTC)
+  schedule:
+    - cron: '0 5 * * *'
+
+  # Also allow manual triggering from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  send-inspiration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Daily Inspiration Agent
+        run: python main.py
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
