@@ -184,7 +184,7 @@ See `requirements.txt` for the full list. Key packages:
 
 | Package | Purpose |
 |---|---|
-| `openai-agents` | OpenAI Agents SDK |
+| `openai-agents` | OpenAI Agents SDK (pinned to `>=0.18,<1.0` — gets updates automatically, but won't break on a future major version) |
 | `python-dotenv` | Load environment variables from `.env` |
 
 ## GitHub Actions Workflow
